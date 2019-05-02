@@ -46,7 +46,7 @@ public class Converter
     *
     *@param binary The binary value
     */
-    public void binaryToDecimal(String binary)
+    public void binaryToDecimal(String binary) throws IllegalArgumentException
     {
         // Set the binary value
         binaryValue = Integer.parseInt(binary);
@@ -68,6 +68,15 @@ public class Converter
             {
                 indiNum = Character.digit(number.charAt(size - counter - 1),10);
                 sum += indiNum * java.lang.Math.pow(2,counter);
+                if(indiNum == 0 || indiNum == 1)
+                {
+                    
+                }
+                else
+                {
+                    // Throw an exception
+                    throw new IllegalArgumentException("Binary num must be 1 or 0");
+                }
                 
             }
             catch(StringIndexOutOfBoundsException e)
@@ -145,7 +154,7 @@ public class Converter
     public static void main(String[]args)
     {
         Converter c1 = new Converter();
-        c1.decimalToBinary("950");
-        System.out.println(c1.getBinaryValue());
+        c1.binaryToDecimal("0110101");
+        System.out.println(c1.getDecimalValue());
     }
 }

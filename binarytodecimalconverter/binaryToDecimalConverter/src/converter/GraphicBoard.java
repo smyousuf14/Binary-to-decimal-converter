@@ -29,14 +29,23 @@ public class GraphicBoard
         
         // Now create the buttons
         JLabel textField = new JLabel("0");
-        JLabel result = new JLabel("");
+        JLabel result = new JLabel("The result goes here");
         textField.setOpaque(true);
         textField.setForeground(Color.blue);
         textField.setBackground(Color.lightGray);
         textField.setBounds(0,0,500,50);
+        result.setOpaque(true);
         result.setForeground(Color.blue);
         result.setBackground(Color.lightGray);
         result.setBounds(0,70,500,50);
+        
+        JLabel message = new JLabel("Binary to Decimal Conversion");
+        message.setOpaque(true);
+        message.setForeground(Color.red);
+        message.setBackground(Color.black);
+        message.setBounds(0,400,500,50);
+        
+        
         
         /*Create the frame*/
         JFrame f = new JFrame("Binary to Decimal Converter");
@@ -57,9 +66,34 @@ public class GraphicBoard
             {
                 if(isBinary)
                 {
-                    convert.binaryToDecimal(input);
-                    
+                    try
+                    {
+                        convert.binaryToDecimal(input);
+                    }
+                    catch(IllegalArgumentException e1)
+                    {
+                        // Do nothing
+                    }
                     result.setText("" + convert.getDecimalValue());
+                    
+                    // Now reset the input.
+                    input = "";
+                }
+                else
+                {
+                    try
+                    {
+                        convert.decimalToBinary(input);
+                        result.setText("" + convert.getBinaryValue());
+                    }
+                    catch(NumberFormatException e2)
+                    {
+                        
+                    }
+                    
+                    
+                    // Now reset the input
+                    input = "";
                 }
                 
             }
@@ -75,10 +109,12 @@ public class GraphicBoard
                 if(isBinary)
                 {
                     isBinary = false;
+                    message.setText("Decimal to Binary Conversion");
                 }
                 else
                 {
                     isBinary = true;
+                    message.setText("Binary to Decimal Conversion");
                 }
                 
             }
@@ -97,6 +133,9 @@ public class GraphicBoard
         JButton eight = new JButton("8");
         JButton nine = new JButton("9");
         
+        // Add clear button
+        JButton clear = new JButton("CLR");
+        
         zero.setBounds(50,350,150,50);
         one.setBounds(50,300,50,50);
         two.setBounds(100,300,50,50);
@@ -107,6 +146,7 @@ public class GraphicBoard
         seven.setBounds(50,200,50,50);
         eight.setBounds(100,200,50,50);
         nine.setBounds(150,200,50,50);
+        clear.setBounds(350,130,70,70);
         
         zero.addActionListener(new ActionListener(){
             
@@ -233,6 +273,18 @@ public class GraphicBoard
        
             }
         });
+        
+        clear.addActionListener(new ActionListener(){
+            
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                /*clear the register*/
+                input = "";
+                
+       
+            }
+        });
        
         /*Set the frame properties*/
         f.add(zero);
@@ -247,7 +299,10 @@ public class GraphicBoard
         f.add(seven);
         f.add(eight);
         f.add(nine);
+        f.add(clear);
         f.add(textField);
+        f.add(result);
+        f.add(message);
         
         f.setSize(500,500);
         f.setLayout(null);
