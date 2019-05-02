@@ -4,6 +4,7 @@
 package converter;
 
 import java.lang.Math;
+import java.util.*;
 /**
  *
  * @author Syed Yousuf
@@ -55,18 +56,19 @@ public class Converter
         int size;
         int counter;
         String number = String.valueOf(binaryValue);
-        int indiNum; // The individual number
+        int indiNum; // The individual number     
+        int powerNum = 0;
         
         // Determine the decimal value
-        size = binary.length();
+        size = number.length();
         
         for(counter = 0; counter < size; counter++)
         { 
             try
             {
-                indiNum = Character.digit(number.charAt(counter),10);
-                //indiNum = (int)number.charAt(counter);
+                indiNum = Character.digit(number.charAt(size - counter - 1),10);
                 sum += indiNum * java.lang.Math.pow(2,counter);
+                
             }
             catch(StringIndexOutOfBoundsException e)
             {
@@ -75,8 +77,67 @@ public class Converter
         }
         
         decimalValue = sum;
-        //decimalValue = binaryValue;
     }
+    
+    /*
+    * Convert decimal to binary
+    *
+    *@param decimal The decimal Value
+    */
+    public void decimalToBinary(String decimal)
+    {
+        // Local Variable
+        int remainder;
+        int divident;
+        String result = "";
+        Stack st = new Stack(); // Store the temporary binary values
+        int size = 0;
+        int counter;
+        
+        divident = Integer.parseInt(decimal);
+        
+        // Perform the division and mod to find the binary equivalent.
+        remainder = divident % 2;
+        divident = divident / 2;
+        
+        while(divident != 0)
+        {
+            
+            // If there is a remainder, then add a 1, else add 0
+            if(remainder == 0)
+            {
+                st.push("0");
+            }
+            else
+            {
+                st.push("1");
+            }
+            
+            remainder = divident % 2;
+            divident = divident / 2;
+            size++;
+        }
+        
+        // If there is a remainder, then add a 1, else add 0
+            if(remainder == 0)
+            {
+                st.push("0");
+            }
+            else
+            {
+                st.push("1");
+            }
+            size++;
+            
+        // Now pop the stack
+        for(counter = 0; counter < size; counter++)
+        {
+            result += st.pop();
+        }
+        
+        binaryValue = Integer.parseInt(result);
+    }
+    
     
     /*
     Test method
@@ -84,7 +145,7 @@ public class Converter
     public static void main(String[]args)
     {
         Converter c1 = new Converter();
-        c1.binaryToDecimal("0001000011");
-        System.out.println(c1.getDecimalValue());
+        c1.decimalToBinary("950");
+        System.out.println(c1.getBinaryValue());
     }
 }
